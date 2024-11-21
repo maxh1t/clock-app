@@ -1,7 +1,7 @@
 export const ROUTES = {
   home: '/',
   alarm: '/alarm',
-  timeZones: '/time-zones',
+  clock: '/clock',
   stopwatch: '/stopwatch',
   timer: '/timer',
 }

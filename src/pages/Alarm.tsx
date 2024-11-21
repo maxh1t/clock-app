@@ -1,3 +1,3 @@
 export default function AlarmPage() {
-  return <>Alarm Page</>
+  return <div className='h-screen'>Alarm Page</div>
 }

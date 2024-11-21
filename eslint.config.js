@@ -37,27 +37,18 @@ export default tseslint.config(
       'no-console': ['warn', { allow: ['error', 'warn', 'debug'] }],
       'prettier/prettier': 'error',
       'import/no-duplicates': 'error',
-      '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
       'react/react-in-jsx-scope': 'off',
       'unused-imports/no-unused-imports': 'error',
       'react-hooks/exhaustive-deps': 'off',
+      'react/prop-types': 'off',
       'import/order': [
         'error',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
-          pathGroups: [
-            {
-              pattern: '@/**',
-              group: 'internal',
-              position: 'after',
-            },
-          ],
+          pathGroups: [{ pattern: '@/**', group: 'internal', position: 'after' }],
           pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
+          alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
     },
