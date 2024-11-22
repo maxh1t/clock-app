@@ -21,13 +21,13 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: Clock,
   },
   {
-    label: 'Stopwatch',
-    link: ROUTES.stopwatch,
-    icon: Hourglass,
-  },
-  {
     label: 'Timer',
     link: ROUTES.timer,
     icon: Timer,
+  },
+  {
+    label: 'Stopwatch',
+    link: ROUTES.stopwatch,
+    icon: Hourglass,
   },
 ]
