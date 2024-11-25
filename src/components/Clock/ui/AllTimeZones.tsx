@@ -36,7 +36,7 @@ export const AllTimeZones = memo(function AllTimeZones({ selectedTimeZoneIds, on
     <Dialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(open)}>
       <DialogTrigger asChild>
         <Button
-          className='absolute bottom-20 size-14 rounded-full p-4 md:bottom-8 md:size-16'
+          className='fixed bottom-20 size-14 rounded-full p-4 md:bottom-8 md:size-16'
           aria-label='Add TimeZone'
           size='icon'
         >
