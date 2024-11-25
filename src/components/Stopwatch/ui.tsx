@@ -1,24 +1,22 @@
-import { Dayjs } from 'dayjs'
 import { useState } from 'react'
 
 import { TimeCounter, TimeCounterStatus } from '@/components/TimeCounter'
-import { zeroTime } from '@/lib/zeroTime'
 
 export function Stopwatch() {
   const [status, setStatus] = useState<TimeCounterStatus>(TimeCounterStatus.New)
-  const [time, setTime] = useState<Dayjs>(zeroTime)
+  const [seconds, setSeconds] = useState(0)
 
   const handleOneSecond = () => {
-    setTime((prevState) => prevState.add(1, 'seconds'))
+    setSeconds((prev) => prev + 1)
   }
 
   const handleStatusSet = (status: TimeCounterStatus) => {
     setStatus(status)
 
     if (status === TimeCounterStatus.New) {
-      setTime(zeroTime)
+      setSeconds(0)
     }
   }
 
-  return <TimeCounter status={status} time={time} onOneSecond={handleOneSecond} onStatusSet={handleStatusSet} />
+  return <TimeCounter status={status} seconds={seconds} onOneSecond={handleOneSecond} onStatusSet={handleStatusSet} />
 }

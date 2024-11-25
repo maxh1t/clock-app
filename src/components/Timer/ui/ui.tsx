@@ -1,30 +1,28 @@
-import { Dayjs } from 'dayjs'
 import { useState } from 'react'
 
 import { TimeCounter, TimeCounterStatus } from '@/components/TimeCounter'
 import { StartTimer } from '@/components/Timer/ui/StartTimer'
-import { TIME_FORMAT_CLOCK } from '@/constants'
-import { zeroTime } from '@/lib/zeroTime'
+import { formatSecondsToTime } from '@/lib/formatSecondsToTime'
 
 export function Timer() {
   const [status, setStatus] = useState<TimeCounterStatus>(TimeCounterStatus.New)
-  const [time, setTime] = useState<Dayjs>(zeroTime)
-  const [startTime, setStartTime] = useState<Dayjs | null>(null)
+  const [seconds, setSeconds] = useState(0)
+  const [startSeconds, setStartSeconds] = useState<number | null>(null)
 
   const handleResetTime = () => {
-    setTime(zeroTime)
-    setStartTime(null)
+    setSeconds(0)
+    setStartSeconds(null)
   }
 
   const handleOneSecond = () => {
-    if (time.isSameOrBefore(zeroTime)) return
+    if (seconds === 0) return
 
-    const newTime = time.subtract(1, 'seconds')
-    setTime(newTime)
+    const newSeconds = seconds - 1
+    setSeconds(newSeconds)
 
-    if (newTime.isSame(zeroTime) && startTime !== null) {
+    if (newSeconds === 0 && startSeconds !== null) {
       // eslint-disable-next-line no-console
-      console.log('Notification -> Timer', startTime?.format(TIME_FORMAT_CLOCK))
+      console.log('Notification -> Timer', formatSecondsToTime(startSeconds))
 
       setStatus(TimeCounterStatus.New)
       handleResetTime()
@@ -39,9 +37,9 @@ export function Timer() {
     }
   }
 
-  const handleStartTimer = (time: Dayjs) => {
-    setStartTime(time)
-    setTime(time)
+  const handleStartTimer = (time: number) => {
+    setStartSeconds(time)
+    setSeconds(time)
     setStatus(TimeCounterStatus.InProgress)
   }
 
@@ -50,7 +48,7 @@ export function Timer() {
       {status === TimeCounterStatus.New ? (
         <StartTimer onStart={handleStartTimer} />
       ) : (
-        <TimeCounter status={status} time={time} onOneSecond={handleOneSecond} onStatusSet={handleSetStatus} />
+        <TimeCounter status={status} seconds={seconds} onOneSecond={handleOneSecond} onStatusSet={handleSetStatus} />
       )}
     </>
   )

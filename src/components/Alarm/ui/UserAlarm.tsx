@@ -5,7 +5,8 @@ import { useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
-import { Alarm, TIME_FORMAT_MAIN } from '@/constants'
+import { Alarm, H12_TIME_FORMAT, H24_TIME_FORMAT, MAIN_TIME_FORMAT } from '@/constants'
+import { useSettingsContext } from '@/contexts/settings'
 
 type Props = {
   alarm: Alarm
@@ -14,11 +15,12 @@ type Props = {
 }
 
 export function UserAlarm({ alarm, onEnableChange, onDelete }: Props) {
-  const date = useMemo(() => dayjs(alarm.time, TIME_FORMAT_MAIN), [alarm])
+  const { settings } = useSettingsContext()
+  const date = useMemo(() => dayjs(alarm.time, MAIN_TIME_FORMAT), [alarm])
 
   return (
     <Card className='flex flex-1 items-center justify-between px-4 py-2'>
-      <div>{date.format(TIME_FORMAT_MAIN)}</div>
+      <div>{date.format(settings.h12 ? H12_TIME_FORMAT : H24_TIME_FORMAT)}</div>
 
       <div className='flex items-center gap-2'>
         <Switch checked={alarm.enable} onCheckedChange={(value) => onEnableChange?.(alarm, value)} />

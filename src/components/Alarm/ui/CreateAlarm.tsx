@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { Plus } from 'lucide-react'
 import { memo, SyntheticEvent, useEffect, useState } from 'react'
 
-import { HOUR_12_OPTIONS, HOUR_24_OPTIONS, MINUTE_SECOND_OPTIONS } from '@/components/Alarm/constants'
+import { H12_OPTIONS, H24_OPTIONS, MINUTE_SECOND_OPTIONS } from '@/components/Alarm/constants'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,15 +14,15 @@ import {
 } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { Alarm, AmPm, TIME_FORMAT_MAIN } from '@/constants'
+import { Alarm, AmPm, MAIN_TIME_FORMAT } from '@/constants'
+import { useSettingsContext } from '@/contexts/settings'
 
 type Props = {
   onCreateAlarm?: (alarm: Alarm) => void
 }
 
-const h12 = true
-
 export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
+  const { settings } = useSettingsContext()
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const [hour, setHour] = useState<string>('')
@@ -34,12 +34,12 @@ export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
     e.preventDefault()
 
     const date = dayjs()
-      .set('hour', h12 ? (Number(hour) % 12) + (amPm === AmPm.Pm ? 12 : 0) : Number(hour))
+      .set('hour', settings.h12 ? (Number(hour) % 12) + (amPm === AmPm.Pm ? 12 : 0) : Number(hour))
       .set('minute', Number(minute))
       .set('second', Number(second))
 
     onCreateAlarm?.({
-      time: date.format(TIME_FORMAT_MAIN),
+      time: date.format(MAIN_TIME_FORMAT),
       enable: true,
     })
     setDialogOpen(false)
@@ -50,10 +50,10 @@ export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
 
     const futureDate = dayjs().add(1, 'hour')
 
-    setHour(h12 ? futureDate.format('hh') : futureDate.format('HH'))
+    setHour(settings.h12 ? futureDate.format('hh') : futureDate.format('HH'))
     setMinute('00')
     setSecond('00')
-    if (h12) {
+    if (settings.h12) {
       setAmPm(futureDate.format('a') as AmPm)
     }
   }, [dialogOpen])
@@ -81,7 +81,7 @@ export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent position='item-aligned'>
-                {(h12 ? HOUR_12_OPTIONS : HOUR_24_OPTIONS).map((hour) => (
+                {(settings.h12 ? H12_OPTIONS : H24_OPTIONS).map((hour) => (
                   <SelectItem key={hour} value={hour}>
                     {hour}
                   </SelectItem>
@@ -114,7 +114,7 @@ export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
                 ))}
               </SelectContent>
             </Select>
-            {h12 && (
+            {settings.h12 && (
               <ToggleGroup
                 type='single'
                 className='flex-col'

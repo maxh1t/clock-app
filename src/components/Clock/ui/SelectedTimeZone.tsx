@@ -2,7 +2,8 @@ import dayjs, { Dayjs } from 'dayjs'
 import { useMemo } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { TIME_FORMAT_MAIN, TimeZone } from '@/constants'
+import { H12_TIME_FORMAT, H24_TIME_FORMAT, TimeZone } from '@/constants'
+import { useSettingsContext } from '@/contexts/settings'
 
 import { getTimeZoneDifference } from '../lib'
 
@@ -13,6 +14,8 @@ type Props = {
 }
 
 export function SelectedTimeZone({ timeZone, currentDate, onTimeZoneClick }: Props) {
+  const { settings } = useSettingsContext()
+
   const date = useMemo(() => dayjs().tz(timeZone.tz), [timeZone, currentDate])
 
   const difference = useMemo(() => getTimeZoneDifference(timeZone.tz), [timeZone])
@@ -27,7 +30,7 @@ export function SelectedTimeZone({ timeZone, currentDate, onTimeZoneClick }: Pro
           <span className='text-muted-foreground'>{timeZone.utc} UTC</span>
         </div>
         <div className='flex flex-col items-end justify-between'>
-          <span>{date.format(TIME_FORMAT_MAIN)}</span>
+          <span>{date.format(settings.h12 ? H12_TIME_FORMAT : H24_TIME_FORMAT)}</span>
           <span className='text-muted-foreground'>{difference}</span>
         </div>
       </div>

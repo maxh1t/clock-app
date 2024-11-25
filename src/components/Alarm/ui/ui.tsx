@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { UserAlarm } from '@/components/Alarm/ui/UserAlarm'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Alarm as AlarmType, TIME_FORMAT_MAIN } from '@/constants'
+import { Alarm as AlarmType, MAIN_TIME_FORMAT } from '@/constants'
 import { alarmsStore } from '@/lib/stotes'
 
 import { CreateAlarm } from './CreateAlarm'
@@ -19,7 +19,7 @@ export function Alarm() {
 
       const newAlarms = [...userAlarms, alarm]
 
-      newAlarms.sort((a, b) => dayjs(a.time, TIME_FORMAT_MAIN).diff(dayjs(b.time, TIME_FORMAT_MAIN)))
+      newAlarms.sort((a, b) => dayjs(a.time, MAIN_TIME_FORMAT).diff(dayjs(b.time, MAIN_TIME_FORMAT)))
 
       alarmsStore.set(newAlarms)
       setUserAlarms(newAlarms)
@@ -53,7 +53,7 @@ export function Alarm() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentTime = dayjs().format(TIME_FORMAT_MAIN)
+      const currentTime = dayjs().format(MAIN_TIME_FORMAT)
 
       userAlarms.forEach((alarm) => {
         if (alarm.enable && alarm.time === currentTime) {

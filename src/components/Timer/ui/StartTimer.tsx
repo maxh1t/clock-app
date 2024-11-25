@@ -1,15 +1,13 @@
-import dayjs, { Dayjs } from 'dayjs'
 import { Delete } from 'lucide-react'
 import { SyntheticEvent, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { TIME_FORMAT_CLOCK } from '@/constants'
 
 import { DEFAULT_INPUT_STRING, INPUT_BUTTONS } from '../constants'
-import { formatInputStringToTime, handleInputString } from '../lib'
+import { convertInputStringToSeconds, formatInputStringToTime, handleInputString } from '../lib'
 
 type Props = {
-  onStart: (time: Dayjs) => void
+  onStart?: (seconds: number) => void
 }
 
 export function StartTimer({ onStart }: Props) {
@@ -20,7 +18,7 @@ export function StartTimer({ onStart }: Props) {
 
     if (inputString === DEFAULT_INPUT_STRING) return
 
-    onStart(dayjs(formatInputStringToTime(inputString), TIME_FORMAT_CLOCK))
+    onStart?.(convertInputStringToSeconds(inputString))
     setInputString(DEFAULT_INPUT_STRING)
   }
 

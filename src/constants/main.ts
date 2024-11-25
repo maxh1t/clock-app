@@ -6,12 +6,13 @@ export const ROUTES = {
   timer: '/timer',
 }
 
-export const TIME_FORMAT_MAIN = 'hh:mm:ss a'
-export const TIME_FORMAT_CLOCK = 'HH:mm:ss'
-export const DATE_FORMAT = 'MM/DD/YYYY'
+export const MAIN_TIME_FORMAT = 'hh:mm:ss a'
+
+export const H12_TIME_FORMAT = 'hh:mm:ss a'
+export const H24_TIME_FORMAT = 'HH:mm:ss'
 
 const LOCAL_STORAGE_PREFIX = 'clock'
-export const THEME_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/theme`
+export const SETTINGS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/settings`
 export const TIME_ZONES_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/timezones`
 export const ALARMS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/alarms`
 

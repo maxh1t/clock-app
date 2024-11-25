@@ -22,3 +22,13 @@ export function handleInputString(button: string, value: string): string {
 
   return value
 }
+
+export function convertInputStringToSeconds(value: string): number {
+  if (value.length !== 6) return 0
+
+  const hours = parseInt(value.slice(0, 2), 10)
+  const minutes = parseInt(value.slice(2, 4), 10)
+  const seconds = parseInt(value.slice(4, 6), 10)
+
+  return hours * 3600 + minutes * 60 + seconds
+}
