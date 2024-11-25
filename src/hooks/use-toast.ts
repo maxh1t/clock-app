@@ -1,7 +1,4 @@
-'use client'
-
-// Inspired by react-hot-toast library
-import * as React from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast'
 
@@ -10,8 +7,8 @@ const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = ToastProps & {
   id: string
-  title?: React.ReactNode
-  description?: React.ReactNode
+  title?: ReactNode
+  description?: ReactNode
   action?: ToastActionElement
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -130,9 +127,13 @@ let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
-  listeners.forEach((listener) => {
-    listener(memoryState)
-  })
+  const notifyListeners = () => {
+    listeners.forEach((listener) => {
+      listener(memoryState)
+    })
+  }
+
+  setTimeout(notifyListeners, 0)
 }
 
 type Toast = Omit<ToasterToast, 'id'>
@@ -167,9 +168,9 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [state, setState] = React.useState<State>(memoryState)
+  const [state, setState] = useState<State>(memoryState)
 
-  React.useEffect(() => {
+  useEffect(() => {
     listeners.push(setState)
     return () => {
       const index = listeners.indexOf(setState)

@@ -6,16 +6,17 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { Alarm, H12_TIME_FORMAT, H24_TIME_FORMAT, MAIN_TIME_FORMAT } from '@/constants'
+import { useAlarmsContext } from '@/contexts/alarms'
 import { useSettingsContext } from '@/contexts/settings'
 
 type Props = {
   alarm: Alarm
-  onEnableChange?: (alarm: Alarm, value: boolean) => void
-  onDelete?: (alarm: Alarm) => void
 }
 
-export function UserAlarm({ alarm, onEnableChange, onDelete }: Props) {
+export function UserAlarm({ alarm }: Props) {
   const { settings } = useSettingsContext()
+  const { updateAlarm, deleteAlarm } = useAlarmsContext()
+
   const date = useMemo(() => dayjs(alarm.time, MAIN_TIME_FORMAT), [alarm])
 
   return (
@@ -23,8 +24,8 @@ export function UserAlarm({ alarm, onEnableChange, onDelete }: Props) {
       <div>{date.format(settings.h12 ? H12_TIME_FORMAT : H24_TIME_FORMAT)}</div>
 
       <div className='flex items-center gap-2'>
-        <Switch checked={alarm.enable} onCheckedChange={(value) => onEnableChange?.(alarm, value)} />
-        <Button size='icon' variant='destructive' onClick={() => onDelete?.(alarm)}>
+        <Switch checked={alarm.enable} onCheckedChange={(value) => updateAlarm({ ...alarm, enable: value })} />
+        <Button size='icon' variant='destructive' onClick={() => deleteAlarm(alarm)}>
           <Trash className='!size-5' />
         </Button>
       </div>

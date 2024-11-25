@@ -1,85 +1,22 @@
-import dayjs from 'dayjs'
-import { useCallback, useEffect, useState } from 'react'
-
 import { UserAlarm } from '@/components/Alarm/ui/UserAlarm'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Alarm as AlarmType, H12_TIME_FORMAT, H24_TIME_FORMAT, MAIN_TIME_FORMAT } from '@/constants'
-import { useSettingsContext } from '@/contexts/settings'
-import { useToast } from '@/hooks/use-toast'
-import { alarmsStore } from '@/lib/stotes'
+import { useAlarmsContext } from '@/contexts/alarms'
 
 import { CreateAlarm } from './CreateAlarm'
 
 export function Alarm() {
-  const [userAlarms, setUserAlarms] = useState<AlarmType[]>(alarmsStore.get() ?? [])
-  const { toast } = useToast()
-  const { settings } = useSettingsContext()
-
-  const handleCreateAlarm = useCallback(
-    (alarm: AlarmType) => {
-      const isExisting = userAlarms.some((item) => item.time === alarm.time)
-
-      if (isExisting) return
-
-      const newAlarms = [...userAlarms, alarm]
-
-      newAlarms.sort((a, b) => dayjs(a.time, MAIN_TIME_FORMAT).diff(dayjs(b.time, MAIN_TIME_FORMAT)))
-
-      alarmsStore.set(newAlarms)
-      setUserAlarms(newAlarms)
-    },
-    [userAlarms],
-  )
-
-  const handleEnableChange = useCallback(
-    (alarm: AlarmType, value: boolean) => {
-      const index = userAlarms.findIndex((item) => item.time === alarm.time)
-      if (index === -1) return
-
-      const updatedAlarms = [...userAlarms]
-      updatedAlarms[index] = { ...updatedAlarms[index], enable: value }
-
-      alarmsStore.set(updatedAlarms)
-      setUserAlarms(updatedAlarms)
-    },
-    [userAlarms],
-  )
-
-  const handleDelete = useCallback(
-    (alarm: AlarmType) => {
-      const updatedAlarms = userAlarms.filter((item) => item.time !== alarm.time)
-
-      alarmsStore.set(updatedAlarms)
-      setUserAlarms(updatedAlarms)
-    },
-    [userAlarms],
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = dayjs().format(MAIN_TIME_FORMAT)
-
-      userAlarms.forEach((alarm) => {
-        if (alarm.enable && alarm.time === currentTime) {
-          const date = dayjs(alarm.time, MAIN_TIME_FORMAT)
-          toast({ title: `Alarm – ${date.format(settings.h12 ? H12_TIME_FORMAT : H24_TIME_FORMAT)}` })
-        }
-      })
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [userAlarms])
+  const { alarms } = useAlarmsContext()
 
   return (
     <div className='flex flex-1 flex-col items-center'>
       <ScrollArea className='w-full'>
         <div className='flex flex-col gap-2'>
-          {userAlarms.map((alarm) => (
-            <UserAlarm key={alarm.time} alarm={alarm} onEnableChange={handleEnableChange} onDelete={handleDelete} />
+          {alarms.map((alarm) => (
+            <UserAlarm key={alarm.time} alarm={alarm} />
           ))}
         </div>
       </ScrollArea>
-      <CreateAlarm onCreateAlarm={handleCreateAlarm} />
+      <CreateAlarm />
     </div>
   )
 }

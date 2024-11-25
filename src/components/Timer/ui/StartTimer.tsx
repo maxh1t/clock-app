@@ -2,15 +2,13 @@ import { Delete } from 'lucide-react'
 import { SyntheticEvent, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { useTimerContext } from '@/contexts/timer'
 
 import { DEFAULT_INPUT_STRING, INPUT_BUTTONS } from '../constants'
 import { convertInputStringToSeconds, formatInputStringToTime, handleInputString } from '../lib'
 
-type Props = {
-  onStart?: (seconds: number) => void
-}
-
-export function StartTimer({ onStart }: Props) {
+export function StartTimer() {
+  const { startTimer } = useTimerContext()
   const [inputString, setInputString] = useState<string>(DEFAULT_INPUT_STRING)
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -18,7 +16,7 @@ export function StartTimer({ onStart }: Props) {
 
     if (inputString === DEFAULT_INPUT_STRING) return
 
-    onStart?.(convertInputStringToSeconds(inputString))
+    startTimer(convertInputStringToSeconds(inputString))
     setInputString(DEFAULT_INPUT_STRING)
   }
 

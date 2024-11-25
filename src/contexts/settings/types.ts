@@ -5,7 +5,7 @@ export type Settings = {
   h12: boolean
 }
 
-export type SettingsContextState = {
+export type ContextState = {
   settings: Settings
   setTheme: (theme: Theme) => void
   setH12: (h12: boolean) => void

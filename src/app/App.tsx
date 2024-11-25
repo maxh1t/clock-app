@@ -6,7 +6,10 @@ import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 
 import { Toaster } from '@/components/ui/toaster'
+import { AlarmsProvider } from '@/contexts/alarms'
 import { SettingsProvider } from '@/contexts/settings'
+import { StopwatchProvider } from '@/contexts/stopwatch'
+import { TimerProvider } from '@/contexts/timer'
 
 import { Router } from './Router'
 
@@ -20,7 +23,13 @@ export function App() {
   return (
     <SettingsProvider>
       <Toaster>
-        <Router />
+        <StopwatchProvider>
+          <TimerProvider>
+            <AlarmsProvider>
+              <Router />
+            </AlarmsProvider>
+          </TimerProvider>
+        </StopwatchProvider>
       </Toaster>
     </SettingsProvider>
   )

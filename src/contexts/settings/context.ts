@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react'
 
 import { Theme } from './constants'
-import { SettingsContextState } from './types'
+import { ContextState } from './types'
 
-export const SettingsContext = createContext<SettingsContextState>({
+export const SettingsContext = createContext<ContextState>({
   settings: {
     theme: Theme.System,
     h12: true,

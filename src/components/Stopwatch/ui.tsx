@@ -1,22 +1,8 @@
-import { useState } from 'react'
-
-import { TimeCounter, TimeCounterStatus } from '@/components/TimeCounter'
+import { TimeCounter } from '@/components/TimeCounter'
+import { useStopwatchContext } from '@/contexts/stopwatch'
 
 export function Stopwatch() {
-  const [status, setStatus] = useState<TimeCounterStatus>(TimeCounterStatus.New)
-  const [seconds, setSeconds] = useState(0)
+  const { seconds, status, updateStatus } = useStopwatchContext()
 
-  const handleOneSecond = () => {
-    setSeconds((prev) => prev + 1)
-  }
-
-  const handleStatusSet = (status: TimeCounterStatus) => {
-    setStatus(status)
-
-    if (status === TimeCounterStatus.New) {
-      setSeconds(0)
-    }
-  }
-
-  return <TimeCounter status={status} seconds={seconds} onOneSecond={handleOneSecond} onStatusSet={handleStatusSet} />
+  return <TimeCounter status={status} seconds={seconds} onUpdateStatus={updateStatus} />
 }

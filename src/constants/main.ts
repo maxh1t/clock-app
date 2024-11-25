@@ -20,3 +20,9 @@ export enum AmPm {
   Am = 'am',
   Pm = 'pm',
 }
+
+export enum TimeStatus {
+  New = 'New',
+  InProgress = 'InProgress',
+  Stopped = 'Stopped',
+}

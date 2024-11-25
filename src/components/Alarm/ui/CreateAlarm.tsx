@@ -14,15 +14,13 @@ import {
 } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { Alarm, AmPm, MAIN_TIME_FORMAT } from '@/constants'
+import { AmPm, MAIN_TIME_FORMAT } from '@/constants'
+import { useAlarmsContext } from '@/contexts/alarms'
 import { useSettingsContext } from '@/contexts/settings'
 
-type Props = {
-  onCreateAlarm?: (alarm: Alarm) => void
-}
-
-export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
+export const CreateAlarm = memo(function CreateAlarm() {
   const { settings } = useSettingsContext()
+  const { createAlarm } = useAlarmsContext()
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const [hour, setHour] = useState<string>('')
@@ -38,10 +36,7 @@ export const CreateAlarm = memo(function CreateAlarm({ onCreateAlarm }: Props) {
       .set('minute', Number(minute))
       .set('second', Number(second))
 
-    onCreateAlarm?.({
-      time: date.format(MAIN_TIME_FORMAT),
-      enable: true,
-    })
+    createAlarm({ time: date.format(MAIN_TIME_FORMAT), enable: true })
     setDialogOpen(false)
   }
 
