@@ -5,6 +5,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 
+import { Toaster } from '@/components/ui/toaster'
 import { SettingsProvider } from '@/contexts/settings'
 
 import { Router } from './Router'
@@ -18,7 +19,9 @@ dayjs.extend(duration)
 export function App() {
   return (
     <SettingsProvider>
-      <Router />
+      <Toaster>
+        <Router />
+      </Toaster>
     </SettingsProvider>
   )
 }

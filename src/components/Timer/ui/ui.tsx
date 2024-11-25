@@ -2,12 +2,14 @@ import { useState } from 'react'
 
 import { TimeCounter, TimeCounterStatus } from '@/components/TimeCounter'
 import { StartTimer } from '@/components/Timer/ui/StartTimer'
+import { useToast } from '@/hooks/use-toast'
 import { formatSecondsToTime } from '@/lib/formatSecondsToTime'
 
 export function Timer() {
   const [status, setStatus] = useState<TimeCounterStatus>(TimeCounterStatus.New)
   const [seconds, setSeconds] = useState(0)
   const [startSeconds, setStartSeconds] = useState<number | null>(null)
+  const { toast } = useToast()
 
   const handleResetTime = () => {
     setSeconds(0)
@@ -21,8 +23,7 @@ export function Timer() {
     setSeconds(newSeconds)
 
     if (newSeconds === 0 && startSeconds !== null) {
-      // eslint-disable-next-line no-console
-      console.log('Notification -> Timer', formatSecondsToTime(startSeconds))
+      toast({ title: `Timer Done – ${formatSecondsToTime(startSeconds)}` })
 
       setStatus(TimeCounterStatus.New)
       handleResetTime()

@@ -3,13 +3,17 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { UserAlarm } from '@/components/Alarm/ui/UserAlarm'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Alarm as AlarmType, MAIN_TIME_FORMAT } from '@/constants'
+import { Alarm as AlarmType, H12_TIME_FORMAT, H24_TIME_FORMAT, MAIN_TIME_FORMAT } from '@/constants'
+import { useSettingsContext } from '@/contexts/settings'
+import { useToast } from '@/hooks/use-toast'
 import { alarmsStore } from '@/lib/stotes'
 
 import { CreateAlarm } from './CreateAlarm'
 
 export function Alarm() {
   const [userAlarms, setUserAlarms] = useState<AlarmType[]>(alarmsStore.get() ?? [])
+  const { toast } = useToast()
+  const { settings } = useSettingsContext()
 
   const handleCreateAlarm = useCallback(
     (alarm: AlarmType) => {
@@ -57,8 +61,8 @@ export function Alarm() {
 
       userAlarms.forEach((alarm) => {
         if (alarm.enable && alarm.time === currentTime) {
-          // eslint-disable-next-line no-console
-          console.log('Notification -> Alarm', alarm)
+          const date = dayjs(alarm.time, MAIN_TIME_FORMAT)
+          toast({ title: `Alarm – ${date.format(settings.h12 ? H12_TIME_FORMAT : H24_TIME_FORMAT)}` })
         }
       })
     }, 1000)
