@@ -51,11 +51,10 @@ export function Clock() {
   )
 
   return (
-    <div className='flex flex-1 flex-col items-center justify-center gap-2'>
+    <div className='relative flex flex-1 flex-col items-center justify-center gap-2'>
       <div className='flex flex-1 items-center justify-center'>
         <CurrentTimeZone date={currentDate} />
       </div>
-
       {selectedTimeZoneIds.length > 0 && (
         <ScrollArea className='flex w-full flex-[2] flex-col'>
           <div className='flex flex-col gap-2'>
@@ -73,7 +72,6 @@ export function Clock() {
           </div>
         </ScrollArea>
       )}
-
       <AllTimeZones selectedTimeZoneIds={selectedTimeZoneIds} onTimeZoneClick={handleAllTimeZoneClick} />
     </div>
   )
