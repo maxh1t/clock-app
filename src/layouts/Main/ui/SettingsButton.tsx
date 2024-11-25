@@ -1,7 +1,14 @@
 import { Moon, Settings, Sun, SunMoon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Theme, useSettingsContext } from '@/contexts/settings'
 
@@ -18,6 +25,7 @@ export function SettingsButton() {
       <DialogContent className='min-h-[200px] sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
+          <DialogDescription className='sr-only'>Dialog with Time Format and Theme Settings</DialogDescription>
         </DialogHeader>
         <div className='flex flex-1 flex-col justify-end gap-2'>
           <div className='flex items-center justify-between'>
