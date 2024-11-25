@@ -10,6 +10,7 @@ export const DATE_FORMAT = 'ddd, MMM D YYYY'
 
 export function CurrentTimeZone({ date }: Props) {
   const currentTimeZone = allTimeZones[dayjs.tz.guess()]
+
   return (
     <div className='flex flex-col items-center'>
       <h2 className='text-2xl md:text-3xl'>{date.format(TIME_FORMAT_MAIN)}</h2>

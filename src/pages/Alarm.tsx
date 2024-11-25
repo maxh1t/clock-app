@@ -1,3 +1,5 @@
+import { Alarm } from '@/components/Alarm'
+
 export default function AlarmPage() {
-  return <div className='h-screen'>Alarm Page</div>
+  return <Alarm />
 }

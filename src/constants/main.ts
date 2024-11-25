@@ -13,3 +13,9 @@ export const DATE_FORMAT = 'MM/DD/YYYY'
 const LOCAL_STORAGE_PREFIX = 'clock'
 export const THEME_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/theme`
 export const TIME_ZONES_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/timezones`
+export const ALARMS_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/alarms`
+
+export enum AmPm {
+  Am = 'am',
+  Pm = 'pm',
+}
