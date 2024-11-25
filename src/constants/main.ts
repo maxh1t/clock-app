@@ -9,3 +9,7 @@ export const ROUTES = {
 export const TIME_FORMAT_MAIN = 'hh:mm:ss a'
 export const TIME_FORMAT_CLOCK = 'HH:mm:ss'
 export const DATE_FORMAT = 'MM/DD/YYYY'
+
+const LOCAL_STORAGE_PREFIX = 'clock'
+export const THEME_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/theme`
+export const TIME_ZONES_LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}/timezones`
